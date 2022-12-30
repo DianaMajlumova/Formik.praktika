@@ -1,63 +1,57 @@
 import { useFormik, Form, Formik, Field } from 'formik'
-import React from 'react'
-// import { Helmet } from 'react-helmet'
+import React, { useState } from 'react'
+import { Helmet } from 'react-helmet'
+import Navbar from '../../Layouts/Navbar/Navbar'
 function Home() {
-  const { handleSubmit, handleChange, values } = useFormik(
-    {
-      initialValues: {
-        username: "",
-        password: "",
-      },
-      onSubmit: (values) => { console.log(values); }
-    }
-  )
+  const [data, setData] = useState([])
   return (
     <>
-      {/* <>
+      <Formik 
+        initialValues={{
+         username: "",
+          name: "",
+          password: "",
+          email: "",
+          about: "",
+          phonenumber: "",
+        }}
+        onSubmit={(values) => {
+          setData((prevState) => [...prevState, values])
+        }}
+      >
+        {(props) => (
+          <Form>
+          <Field name="username" />
+            <Field name="password" type="password" />
+            <Field name="email" type="email" />
+            <Field name="about" type="text" />
+            <Field name="phonenumber" type="number" />
+            <button type="submit">Sign in</button>
+          </Form>
+        )}
+      </Formik>
+      {
+
+        <ol>
+          {data.map((element, index) => {
+            return (
+              <li key={index}>
+                <p>{element.username}</p>
+                <p>{element.password}</p>
+                <p>{element.email}</p>
+                <p>{element.about}</p>
+                <p>{element.phonenumber}</p>
+              </li>
+            )
+          })}
+        </ol>
+      }
       <Helmet>
         <title>Home</title>
-        <meta name='description' content='React project'/>
+        <meta name='description' content='React project' />
       </Helmet>
-      <Navbar></Navbar>
-      Home
-    </> */}
-<Formik
-initialValues={{
-    username:"",
-    password:""
-  }}
-  onSubmit={(values)=>{console.log(values);}
+      <Navbar />
+    </>
+  )
 }
->
- 
- {({value})=>{
-  <Form>
-    <Field name="username"/>
-    <Field name="password" type="password"/>
-    <button type="submit">Sign in</button>
-  </Form>;
- }}
-
-
-  
-</Formik>
-
-
-
-
-
-
-
-
-    <form onSubmit={handleSubmit}>
-      <label htmlFor="username">Username</label>
-      <input id="username" value={values.username} onChange={handleChange}/>
-      <label htmlFor="password">Password</label>
-      <input id="password" value={values.password} onChange={handleChange}/>
-      <button type="submit">Sign in</button>
-    </form>
-  </>
-  );
-}
-
 export default Home
